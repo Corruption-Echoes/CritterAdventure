@@ -1,0 +1,9 @@
+C:\Library\projects\C#\Tiny_Battler\obj\Debug\Tiny_Battler.csproj.AssemblyReference.cache
+C:\Library\projects\C#\Tiny_Battler\obj\Debug\Tiny_Battler.csproj.SuggestedBindingRedirects.cache
+C:\Library\projects\C#\Tiny_Battler\obj\Debug\Tiny_Battler.csproj.CoreCompileInputs.cache
+C:\Library\projects\C#\Tiny_Battler\bin\Debug\Tiny_Battler.exe.config
+C:\Library\projects\C#\Tiny_Battler\bin\Debug\Tiny_Battler.exe
+C:\Library\projects\C#\Tiny_Battler\bin\Debug\Tiny_Battler.pdb
+C:\Library\projects\C#\Tiny_Battler\obj\Debug\Tiny_Battler.exe
+C:\Library\projects\C#\Tiny_Battler\obj\Debug\Tiny_Battler.pdb
+C:\Library\projects\C#\Tiny_Battler\bin\Debug\XMLStorage\zones\zone0.xml

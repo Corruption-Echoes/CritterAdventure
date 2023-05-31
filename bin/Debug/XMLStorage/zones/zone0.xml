@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<EncounterList>
+	<encounter>
+		<species>0</species>
+		<min>2</min>
+		<max>4</max>
+		<weight>10</weight>
+	</encounter>
+	<encounter>
+		<species>1</species>
+		<min>2</min>
+		<max>3</max>
+		<weight>15</weight>
+	</encounter>
+	<encounter>
+		<species>2</species>
+		<min>3</min>
+		<max>3</max>
+		<weight>5</weight>
+	</encounter>
+	<encounter>
+		<species>3</species>
+		<min>4</min>
+		<max>4</max>
+		<weight>1</weight>
+	</encounter>
+</EncounterList>
