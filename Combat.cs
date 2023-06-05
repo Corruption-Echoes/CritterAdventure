@@ -15,5 +15,6 @@ namespace Tiny_Battler
             Enemy = enemy;
 
         }
+
     }
 }
