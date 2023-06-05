@@ -15,5 +15,16 @@ namespace Tiny_Battler
             ID = iD;
             CPP = Program.XMLLoader.moveTemplates[ID].PP;
         }
+        public moveTemplate MT()
+        {
+            return Program.XMLLoader.moveTemplates[ID];
+        }
+        public bool isUsable()
+        {
+            if(CPP>0) { 
+                return true;
+            }
+            return false;
+        }
     }
 }
