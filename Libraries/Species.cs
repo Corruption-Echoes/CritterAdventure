@@ -15,15 +15,5 @@ namespace Tiny_Battler
         public static int Magic = 3;
         public static int Shield = 4;
         public static int Speed = 5;
-
-        public static Dictionary<int, int[]> speciesStatBlocks;
-        public static Dictionary<int, int[]> xpTiers;
-        public static Dictionary<int, string> speciesNames;
-
-        public static void loadSpecies()
-        {
-
-        }
-
     }
 }

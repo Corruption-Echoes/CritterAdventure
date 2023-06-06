@@ -8,9 +8,9 @@ namespace Tiny_Battler
 {
     class Player
     {
-        public Party playersParty;
+        public static Party playersParty;
 
-        public Player()
+        static Player()
         {
 
         }

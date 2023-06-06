@@ -23,7 +23,16 @@ namespace Tiny_Battler
             this.species= species;
             EVS = dvs;
             IVS = ivs;
+            buffStates = new int[] { 0,0,0,0,0,0};
             currentHP=determineStat(Species.Health);
+        }
+        public bool isFainted()
+        {
+            if (currentHP > 0)
+            {
+                return false;
+            }
+            return true;
         }
         public void setEVS(int[] evIn)
         {
@@ -36,7 +45,7 @@ namespace Tiny_Battler
                 return nickname;
             }else 
             {
-                return Species.speciesNames[species];
+                return Mechanics.loader.speciesTemplates[species].Name;
             }
         }
         public void grantEV(int amount, int stat)
@@ -50,7 +59,7 @@ namespace Tiny_Battler
         public bool grantXP(int amount)
         {
             xp += amount;
-            if (xp > Species.xpTiers[species][level])
+            if (xp > Mechanics.XPScales[Mechanics.loader.speciesTemplates[species].XPScale].LevelTiers[level])
             {
                 level++;
                 xp = 0;
@@ -61,7 +70,21 @@ namespace Tiny_Battler
         }
         public int determineStat(int stat)
         {
-            return (int)((Species.speciesStatBlocks[species][stat] / 50 * level) + (EVS[stat] /100*level) + (IVS[stat] / 400 * level) * Mechanics.statMultiplierStages[buffStates[stat]]);
+            return (int)((Mechanics.loader.speciesTemplates[species].BaseStats[stat] / 50 * level) + (EVS[stat] /100*level) + (IVS[stat] / 400 * level) * Mechanics.statMultiplierStages[buffStates[stat]]);
+        }
+        public static int[] generateIVS()
+        {
+            return new int[]{
+            Mechanics.randomGen.Next(0,32),
+            Mechanics.randomGen.Next(0,32),
+            Mechanics.randomGen.Next(0,32),
+            Mechanics.randomGen.Next(0,32),
+            Mechanics.randomGen.Next(0,32),
+            Mechanics.randomGen.Next(0,32)
+            };
+        }
+        public static int[] ZeroIV() {
+            return new int[] { 0, 0, 0, 0, 0, 0 };
         }
     }
 }

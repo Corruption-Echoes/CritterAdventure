@@ -1,10 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Policy;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml;
 
 namespace Tiny_Battler
 {
@@ -16,10 +10,10 @@ namespace Tiny_Battler
             Console.CursorVisible = false;
             xpScales x = new xpScales();
             x.init(0.35);
-            Mechanics.XPScales.Add(x);
+            Mechanics.XPScales.Add(x);//TODO extend to implement more than 1 XP scale
 
             XMLLoader = new Loader();
-            Loop mainLoop= new Loop();
+            Loop mainLoop = new Loop();
             Console.Read();
         }
     }

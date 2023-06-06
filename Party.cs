@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Dynamic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -16,6 +17,19 @@ namespace Tiny_Battler
         public void AddCreature(Creature creature)
         {
             partyList.Add(creature);
+        }
+        public bool AllFainted()
+        {
+            bool toReturn = true;
+            foreach(Creature creature in partyList)
+            {
+                if (!creature.isFainted())//Check if the current creature is fainted
+                {
+                    toReturn = false;
+                    break;//Break the first time we find a living critter, we only need one or more, not a count
+                }
+            }
+            return toReturn;
         }
     }
 }

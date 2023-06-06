@@ -8,13 +8,19 @@ namespace Tiny_Battler
 {
     internal class Combat
     {
-        public Party Player;
+        public Party PlayerParty;
         public Party Enemy;
         public Combat(Party enemy) 
         { 
             Enemy = enemy;
-
+            PlayerParty = Player.playersParty;
         }
-
+        public void combatLoop()
+        {
+            while(!PlayerParty.AllFainted()||!Enemy.AllFainted())
+            {
+                Console.WriteLine("Combat is occuring!");
+            }
+        }
     }
 }
