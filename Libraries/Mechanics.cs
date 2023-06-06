@@ -84,7 +84,7 @@ namespace Tiny_Battler
             {
                 if (textReader.NodeType != XmlNodeType.EndElement)
                 {
-                    if (textReader.Name == "encounter")
+                    if (textReader.Name == "move")
                     {
                         moveTemplate m = new moveTemplate();
                         m.init();
