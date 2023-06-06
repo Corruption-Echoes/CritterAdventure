@@ -13,7 +13,6 @@ namespace Tiny_Battler
     {
         public static List<float> statMultiplierStages = new List<float>() { 0.08f, 0.12f, 0.18f, 0.28f, 0.43f, 0.66f, 1f, 1.33f, 1.75f, 2.35f, 3.12f, 4.16f, 5.53f };
         public static int EVCAP = 252;
-        public static Loader loader = new Loader();
         public static point OptionsOffset=new point(0,0);
         public static ConsoleColor HighlightColor = ConsoleColor.Green;
         public static ConsoleColor DefaultColor = ConsoleColor.Black;
@@ -23,8 +22,10 @@ namespace Tiny_Battler
         public static Random randomGen=new Random();
         public static Dictionary<string, string[]> keyMaps = new Dictionary<string, string[]>() { {"Left", new string[]{ "LeftArrow", "A" }},{ "Right", new string[] { "RightArrow", "D" } },{ "Up", new string[] { "UpArrow", "W" } }, { "Down", new string[] { "DownArrow", "S" } }, { "Confirm", new string[] { "Enter", "Spacebar" } }, { "Cancel", new string[] { "Backspace", "Z" } } };
         public static List<xpScales> XPScales=new List<xpScales>();
-        public static List<string> types = new List<string>() { "Normal","Fire","Water","Grass","Flying","Ice","Fairy","Steel","Dark","Dragon","Poison","Fighting","Rock","Ground","Ghost","Psychic","Electric","Bug","Null"};
-        public static List<string> states = new List<string>() { "Health","Attack","Defense","Magic","Shield","Speed"};
+        public static string[] types = { "Normal","Fire","Water","Grass","Flying","Ice","Fairy","Steel","Dark","Dragon","Poison","Fighting","Rock","Ground","Ghost","Psychic","Electric","Bug","Null"};
+        public static string[] stats = { "Health","Attack","Defense","Magic","Shield","Speed"};
+        public static string[] statusEffects = { "Poison", "Paralysis", "Sleep", "Frozen", "Bleeding", "Concussed" ,"Burning"};
+        public static Loader loader = new Loader();
         private static string CheckInput(string input)
         {
             foreach(string key in keyMaps.Keys)
@@ -58,9 +59,11 @@ namespace Tiny_Battler
         public static int[] stringToBST(string bst)
         {
             int[] toReturn = new int[6];
+            Console.WriteLine(bst);
             string[] split = bst.Split('/');
             for(int i=0;i<split.Length;i++)
             {
+                Console.WriteLine(split[i]);
                 toReturn[i] = int.Parse(split[i]);
             }
             return toReturn;
@@ -129,7 +132,8 @@ namespace Tiny_Battler
                     {
                         textReader.Read();
                         moveTemplate m = moveTemplates[moveTemplates.Count - 1];
-                        m.Type = int.Parse(textReader.Value);
+                        Console.WriteLine(Array.IndexOf(Mechanics.types, textReader.Value));
+                        m.Type=Array.IndexOf(Mechanics.types,textReader.Value);
                         moveTemplates[moveTemplates.Count - 1] = m;
                     }
                     if (textReader.Name == "secondaryEffect")
@@ -138,24 +142,30 @@ namespace Tiny_Battler
                         moveTemplate m = moveTemplates[moveTemplates.Count - 1];
                         effect e = new effect();
                         e.init();
+
                         while (textReader.Name != "secondaryEffect")
                         {
                             if (textReader.NodeType != XmlNodeType.EndElement)
                             {
                                 if(textReader.Name == "stat")
                                 {
-                                    e.Status= int.Parse(textReader.Value);
+                                    textReader.Read();
+                                    e.Status= Array.IndexOf(Mechanics.stats, textReader.Value);
                                 }
                                 else if (textReader.Name == "effect")
                                 {
+                                    textReader.Read();
+                                    Console.WriteLine(textReader.Value);
                                     e.Effect = int.Parse(textReader.Value);
                                 }
                                 else if (textReader.Name == "status")
                                 {
-                                    e.Status = int.Parse(textReader.Value);
+                                    textReader.Read();
+                                    e.Status = Array.IndexOf(Mechanics.statusEffects, textReader.Value);
                                 }
                                 else if (textReader.Name == "chance")
                                 {
+                                    textReader.Read();
                                     e.Chance = int.Parse(textReader.Value);
                                 }
                             }
@@ -191,14 +201,14 @@ namespace Tiny_Battler
                     {
                         textReader.Read();
                         speciesTemplate m = speciesTemplates[speciesTemplates.Count - 1];
-                        m.addType(Mechanics.types.IndexOf(textReader.Value));
+                        m.addType(Array.IndexOf(Mechanics.types, textReader.Value));
                         speciesTemplates[speciesTemplates.Count - 1] = m;
                     }
                     else if (textReader.Name == "ev")
                     {
                         textReader.Read();
                         speciesTemplate m = speciesTemplates[speciesTemplates.Count - 1];
-                        m.EVGranted = Mechanics.types.IndexOf(textReader.Value);
+                        m.EVGranted = Array.IndexOf(Mechanics.stats, textReader.Value);
                         speciesTemplates[speciesTemplates.Count - 1] = m;
                     }
                     else if (textReader.Name == "yield")
