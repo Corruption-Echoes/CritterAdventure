@@ -9,7 +9,7 @@ namespace Tiny_Battler
     internal class Creature
     {
         public int currentHP;
-        public int level;
+        public int Level;
         public int xp;
         public int[] EVS;
         public int[] IVS;
@@ -18,12 +18,13 @@ namespace Tiny_Battler
         public string nickname;
         public List<Move> moves;
         
-        public Creature(int species, int[] dvs, int[] ivs)
+        public Creature(int species, int[] dvs, int[] ivs,int level)
         {
             this.species= species;
             EVS = dvs;
             IVS = ivs;
-            buffStates = new int[] { 0,0,0,0,0,0};
+            Level = level;
+            buffStates = new int[]{ 6,6,6,6,6};
             currentHP=determineStat(Species.Health);
         }
         public bool isFainted()
@@ -59,9 +60,9 @@ namespace Tiny_Battler
         public bool grantXP(int amount)
         {
             xp += amount;
-            if (xp > Mechanics.XPScales[Mechanics.loader.speciesTemplates[species].XPScale].LevelTiers[level])
+            if (xp > Mechanics.XPScales[Mechanics.loader.speciesTemplates[species].XPScale].LevelTiers[Level])
             {
-                level++;
+                Level++;
                 xp = 0;
                 currentHP = determineStat(Species.Health);
                 return true;
@@ -70,7 +71,13 @@ namespace Tiny_Battler
         }
         public int determineStat(int stat)
         {
-            return (int)((Mechanics.loader.speciesTemplates[species].BaseStats[stat] / 50 * level) + (EVS[stat] /100*level) + (IVS[stat] / 400 * level) * Mechanics.statMultiplierStages[buffStates[stat]]);
+            Console.WriteLine("Determing a stat: "+stat+ "It was"+ ((Mechanics.loader.speciesTemplates[species].BaseStats[stat] / 50 * Level) + (EVS[stat] / 100 * Level) + (IVS[stat] / 400 * Level)));
+            Console.WriteLine("This was determing by adding "+ (Mechanics.loader.speciesTemplates[species].BaseStats[stat] / 50 * Level) +"To "+ (EVS[stat] / 100 * Level) +"and "+ (IVS[stat] / 400 * Level));
+            if(stat == 0)
+            {
+                return (int)((Mechanics.loader.speciesTemplates[species].BaseStats[stat] / 50 * Level) + (EVS[stat] / 100 * Level) + (IVS[stat] / 400 * Level))*4;
+            }
+            return (int)((Mechanics.loader.speciesTemplates[species].BaseStats[stat] / 50 * Level) + (EVS[stat] /100*Level) + (IVS[stat] / 400 * Level) * Mechanics.statMultiplierStages[buffStates[stat-1]]);
         }
         public static int[] generateIVS()
         {
@@ -83,8 +90,18 @@ namespace Tiny_Battler
             Mechanics.randomGen.Next(0,32)
             };
         }
-        public static int[] ZeroIV() {
-            return new int[] { 0, 0, 0, 0, 0, 0 };
+        public List<string> getMoveNames()
+        {
+            List<string> toReturn = new List<string>();
+            //Now we need to handle giving pokemon moves!
+            //Which means actually doing level learn lists per species
+            foreach (Move m in moves)
+            {
+                toReturn.Add(Mechanics.loader.moveTemplates[m.ID].Name);
+            }
+            return toReturn;
         }
+        public static int[] ZeroIV = new int[] { 0, 0, 0, 0, 0, 0 };
+        public static int[] ZeroBuff = new int[] { 6, 6, 6, 6, 6 };
     }
 }

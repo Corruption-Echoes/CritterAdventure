@@ -23,6 +23,7 @@ namespace Tiny_Battler
             bool toReturn = true;
             foreach(Creature creature in partyList)
             {
+                Console.WriteLine("Checking a critter: "+creature.currentHP);
                 if (!creature.isFainted())//Check if the current creature is fainted
                 {
                     toReturn = false;

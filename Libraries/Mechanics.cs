@@ -59,11 +59,11 @@ namespace Tiny_Battler
         public static int[] stringToBST(string bst)
         {
             int[] toReturn = new int[6];
-            Console.WriteLine(bst);
+            //Console.WriteLine(bst);
             string[] split = bst.Split('/');
             for(int i=0;i<split.Length;i++)
             {
-                Console.WriteLine(split[i]);
+                //Console.WriteLine(split[i]);
                 toReturn[i] = int.Parse(split[i]);
             }
             return toReturn;
@@ -132,7 +132,7 @@ namespace Tiny_Battler
                     {
                         textReader.Read();
                         moveTemplate m = moveTemplates[moveTemplates.Count - 1];
-                        Console.WriteLine(Array.IndexOf(Mechanics.types, textReader.Value));
+                        //Console.WriteLine(Array.IndexOf(Mechanics.types, textReader.Value));
                         m.Type=Array.IndexOf(Mechanics.types,textReader.Value);
                         moveTemplates[moveTemplates.Count - 1] = m;
                     }
@@ -155,7 +155,7 @@ namespace Tiny_Battler
                                 else if (textReader.Name == "effect")
                                 {
                                     textReader.Read();
-                                    Console.WriteLine(textReader.Value);
+                                    //Console.WriteLine(textReader.Value);
                                     e.Effect = int.Parse(textReader.Value);
                                 }
                                 else if (textReader.Name == "status")
@@ -184,8 +184,7 @@ namespace Tiny_Battler
             {
                 if (textReader.NodeType != XmlNodeType.EndElement)
                 {
-                    if (textReader.Name == "species")
-                    {
+                    if (textReader.Name == "species")                    {
                         speciesTemplate s = new speciesTemplate();
                         s.init();
                         speciesTemplates.Add(s);
@@ -293,6 +292,10 @@ namespace Tiny_Battler
             LevelMin = min;
             LevelMax = max;
             Weight = weight;
+        }
+        public int pickLevel()
+        {
+            return Mechanics.randomGen.Next(LevelMin, LevelMax + 1);
         }
     }
     public struct point 

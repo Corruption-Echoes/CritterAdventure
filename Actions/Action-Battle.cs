@@ -11,10 +11,16 @@ namespace Tiny_Battler
         Combat currentCombat;
         public Action_Battle() : base("Battle","Find a wild creature to fight!")
         {
+
         }
         public override bool PerformAction(wildListing foeDesign)
         {
-            Creature critter=new Creature(foeDesign.Species,Creature.ZeroIV(),Creature.generateIVS());
+            Console.WriteLine("Performing Action!");
+            Console.WriteLine("Performing Action!");
+            Console.WriteLine("Performing Action!");
+            Console.WriteLine("Performing Action!");
+            Console.WriteLine("Performing Action!");
+            Creature critter=new Creature(foeDesign.Species,Creature.ZeroIV,Creature.generateIVS(),foeDesign.pickLevel());
             Party wildParty = new Party();
             wildParty.AddCreature(critter);
             currentCombat = new Combat(wildParty);
