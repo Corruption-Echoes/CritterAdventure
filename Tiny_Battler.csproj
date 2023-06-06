@@ -55,6 +55,7 @@
     <Compile Include="Libraries\Mechanics.cs" />
     <Compile Include="Move.cs" />
     <Compile Include="Party.cs" />
+    <Compile Include="Player.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Libraries\Species.cs" />
@@ -65,8 +66,12 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="XMLStorage\Moves\moves.xml" />
-    <Content Include="XMLStorage\Species\species.xml" />
+    <Content Include="XMLStorage\Moves\moves.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="XMLStorage\Species\species.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="XMLStorage\zones\zone0.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

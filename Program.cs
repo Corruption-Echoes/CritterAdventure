@@ -14,8 +14,9 @@ namespace Tiny_Battler
         static void Main(string[] args)
         {
             Console.CursorVisible = false;
-            Mechanics.XPScales.Add(new xpScales());
-            Mechanics.XPScales[0].init(0.35);
+            xpScales x = new xpScales();
+            x.init(0.35);
+            Mechanics.XPScales.Add(x);
 
             XMLLoader = new Loader();
             Loop mainLoop= new Loop();

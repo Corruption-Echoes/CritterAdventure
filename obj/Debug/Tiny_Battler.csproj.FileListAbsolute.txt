@@ -7,3 +7,13 @@ C:\Library\projects\C#\Tiny_Battler\bin\Debug\Tiny_Battler.pdb
 C:\Library\projects\C#\Tiny_Battler\obj\Debug\Tiny_Battler.exe
 C:\Library\projects\C#\Tiny_Battler\obj\Debug\Tiny_Battler.pdb
 C:\Library\projects\C#\Tiny_Battler\bin\Debug\XMLStorage\zones\zone0.xml
+G:\Dev Stuff\CritterAdventure\bin\Debug\XMLStorage\zones\zone0.xml
+G:\Dev Stuff\CritterAdventure\bin\Debug\Tiny_Battler.exe.config
+G:\Dev Stuff\CritterAdventure\bin\Debug\Tiny_Battler.exe
+G:\Dev Stuff\CritterAdventure\bin\Debug\Tiny_Battler.pdb
+G:\Dev Stuff\CritterAdventure\obj\Debug\Tiny_Battler.csproj.AssemblyReference.cache
+G:\Dev Stuff\CritterAdventure\obj\Debug\Tiny_Battler.csproj.CoreCompileInputs.cache
+G:\Dev Stuff\CritterAdventure\obj\Debug\Tiny_Battler.exe
+G:\Dev Stuff\CritterAdventure\obj\Debug\Tiny_Battler.pdb
+G:\Dev Stuff\CritterAdventure\bin\Debug\XMLStorage\Moves\moves.xml
+G:\Dev Stuff\CritterAdventure\bin\Debug\XMLStorage\Species\species.xml

@@ -1,0 +1,51 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Moves>
+	<move>
+		<name>Tackle</name>
+		<type>Normal</type>
+		<description>Crudely ram yourself into your foe.</description>
+		<power>30</power>
+		<basePP>40</basePP>
+		<accuracy>90</accuracy>
+	</move>
+	<move>
+		<name>Scratch</name>
+		<type>Normal</type>
+		<description>Carefully swipe at your foe.</description>
+		<power>25</power>
+		<basePP>40</basePP>
+		<accuracy>100</accuracy>
+	</move>
+	<move>
+		<name>Growl</name>
+		<type>Normal</type>
+		<description>Let out a menacing growl, intimidating your foe!</description>
+		<basePP>40</basePP>
+		<secondaryEffect>
+			<stat>Attack</stat>
+			<effect>-1</effect>
+		</secondaryEffect>
+	</move>
+	<move>
+		<name>String Shot</name>
+		<type>Bug</type>
+		<description>Bind your enemy, reducing their speed.</description>
+		<basePP>40</basePP>
+		<secondaryEffect>
+			<stat>Speed</stat>
+			<effect>-2</effect>
+		</secondaryEffect>
+	</move>
+	<move>
+		<name>Envenom</name>
+		<type>Poison</type>
+		<description>Strike your foe lightly with a toxic attack.</description>
+		<power>15</power>
+		<basePP>20</basePP>
+		<accuracy>95</accuracy>
+		<secondaryEffect>
+			<chance>30</chance>
+			<status>poison</status>
+		</secondaryEffect>
+	</move>
+</Moves>
