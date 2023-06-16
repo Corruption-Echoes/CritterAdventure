@@ -26,6 +26,7 @@ namespace Tiny_Battler
             Level = level;
             buffStates = new int[]{ 6,6,6,6,6};
             currentHP=determineStat(Species.Health);
+            moves = Mechanics.loader.GetDefaultMoves(Mechanics.loader.speciesTemplates[species].Name,level);
         }
         public bool isFainted()
         {
@@ -34,6 +35,27 @@ namespace Tiny_Battler
                 return false;
             }
             return true;
+        }
+        public int calculateDamage(int move)
+        {//Damage=(Power/100)*stat*(STAB)
+            float SameType = 1;
+            if (Mechanics.loader.moveTemplates[move].Type == Mechanics.loader.speciesTemplates[species].Types[0]|| Mechanics.loader.moveTemplates[move].Type == Mechanics.loader.speciesTemplates[species].Types[1])
+            {
+                SameType = 1.2f;
+            }
+            int damage = (int)((float)(Mechanics.loader.moveTemplates[move].Power/100f+1)* determineStat(Mechanics.getStatNum(Mechanics.loader.moveTemplates[move].Scale))* SameType);
+            //Console.WriteLine(damage+" initially calculated.");
+            return damage;
+        }
+        public void dealDamage(float amount, string damageType, string mitigationStat)
+        {//Damage=(incoming*TypeEffectiveness/(stat/100))
+            int stat = Mechanics.getStatNum(mitigationStat);
+            //Console.WriteLine(stat+" : "+mitigationStat);
+            //Console.WriteLine(amount);
+            //Console.WriteLine(Mechanics.CalculateTypeEffectiveness(damageType, species));
+            //Console.WriteLine();
+            currentHP -= (int)(amount * (float)(Mechanics.CalculateTypeEffectiveness(damageType,species)/(determineStat(stat)/Level)));
+            Console.WriteLine((int)(amount * (float)(Mechanics.CalculateTypeEffectiveness(damageType, species) / (determineStat(stat) / Level)))+" Damage was dealt!");
         }
         public void setEVS(int[] evIn)
         {
@@ -69,10 +91,14 @@ namespace Tiny_Battler
             }
             return false;
         }
+        public int getXPToLevel()
+        {
+            return Mechanics.XPScales[Mechanics.loader.speciesTemplates[species].XPScale].LevelTiers[Level];
+        }
         public int determineStat(int stat)
         {
-            Console.WriteLine("Determing a stat: "+stat+ "It was"+ ((Mechanics.loader.speciesTemplates[species].BaseStats[stat] / 50 * Level) + (EVS[stat] / 100 * Level) + (IVS[stat] / 400 * Level)));
-            Console.WriteLine("This was determing by adding "+ (Mechanics.loader.speciesTemplates[species].BaseStats[stat] / 50 * Level) +"To "+ (EVS[stat] / 100 * Level) +"and "+ (IVS[stat] / 400 * Level));
+            //Console.WriteLine("Determing a stat: "+stat+ "It was"+ ((Mechanics.loader.speciesTemplates[species].BaseStats[stat] / 50 * Level) + (EVS[stat] / 100 * Level) + (IVS[stat] / 400 * Level)));
+            //Console.WriteLine("This was determing by adding "+ (Mechanics.loader.speciesTemplates[species].BaseStats[stat] / 50 * Level) +"To "+ (EVS[stat] / 100 * Level) +"and "+ (IVS[stat] / 400 * Level));
             if(stat == 0)
             {
                 return (int)((Mechanics.loader.speciesTemplates[species].BaseStats[stat] / 50 * Level) + (EVS[stat] / 100 * Level) + (IVS[stat] / 400 * Level))*4;
@@ -82,12 +108,12 @@ namespace Tiny_Battler
         public static int[] generateIVS()
         {
             return new int[]{
-            Mechanics.randomGen.Next(0,32),
-            Mechanics.randomGen.Next(0,32),
-            Mechanics.randomGen.Next(0,32),
-            Mechanics.randomGen.Next(0,32),
-            Mechanics.randomGen.Next(0,32),
-            Mechanics.randomGen.Next(0,32)
+            Mechanics.generateIV(),
+            Mechanics.generateIV(),
+            Mechanics.generateIV(),
+            Mechanics.generateIV(),
+            Mechanics.generateIV(),
+            Mechanics.generateIV()
             };
         }
         public List<string> getMoveNames()

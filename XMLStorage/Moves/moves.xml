@@ -2,23 +2,27 @@
 <Moves>
 	<move>
 		<name>Tackle</name>
-		<type>Normal</type>
+		<type>Earth</type>
 		<description>Crudely ram yourself into your foe.</description>
 		<power>30</power>
 		<basePP>40</basePP>
 		<accuracy>90</accuracy>
+		<scale>Attack</scale>
+		<mitigation>Defense</mitigation>
 	</move>
 	<move>
 		<name>Scratch</name>
-		<type>Normal</type>
+		<type>Air</type>
 		<description>Carefully swipe at your foe.</description>
 		<power>25</power>
 		<basePP>40</basePP>
 		<accuracy>100</accuracy>
+		<scale>Attack</scale>
+		<mitigation>Defense</mitigation>
 	</move>
 	<move>
 		<name>Growl</name>
-		<type>Normal</type>
+		<type>Air</type>
 		<description>Let out a menacing growl, intimidating your foe!</description>
 		<basePP>40</basePP>
 		<secondaryEffect>
@@ -28,7 +32,7 @@
 	</move>
 	<move>
 		<name>String Shot</name>
-		<type>Bug</type>
+		<type>Nature</type>
 		<description>Bind your enemy, reducing their speed.</description>
 		<basePP>40</basePP>
 		<secondaryEffect>
@@ -45,7 +49,21 @@
 		<accuracy>95</accuracy>
 		<secondaryEffect>
 			<chance>30</chance>
-			<status>poison</status>
+			<status>Poison</status>
 		</secondaryEffect>
+		<scale>Attack</scale>
+		<mitigation>Shield</mitigation>
+	</move>
+	<move>
+		<name>Singe</name>
+		<type>Fire</type>
+		<power>30</power>
+		<basePP>30</basePP>
+		<secondaryEffect>
+			<chance>30</chance>
+			<status>Burning</status>
+		</secondaryEffect>
+		<scale>Magic</scale>
+		<mitigation>Shield</mitigation>
 	</move>
 </Moves>

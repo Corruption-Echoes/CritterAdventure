@@ -15,6 +15,7 @@ namespace Tiny_Battler
         {
             playersParty = new Party();
             playersParty.AddCreature(new Creature(0,Creature.ZeroIV,Creature.ZeroIV, 5));
+            playersParty.isPlayer = true;
         }
         public static void swapPokemon(int swapTo)
         {

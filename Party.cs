@@ -10,9 +10,13 @@ namespace Tiny_Battler
     internal class Party
     {
         public List<Creature> partyList;
+        public int activeMember;
+        public bool isPlayer;
         public Party()
         {
             partyList = new List<Creature>();
+            activeMember = 0;
+            isPlayer = false;
         }
         public void AddCreature(Creature creature)
         {
@@ -31,6 +35,29 @@ namespace Tiny_Battler
                 }
             }
             return toReturn;
+        }
+        public int pickMove()
+        {
+            if (!isPlayer)
+            {
+                return 0;//Add AI logic!
+            }
+            return 0;
+        }
+        public int getSpeed()
+        {
+            return partyList[activeMember].determineStat(Species.Speed);
+        }
+        public bool damageCreature(float amount, string damageType, string mitigationStat)
+        {
+            //Console.WriteLine(amount+" "+damageType+" "+mitigationStat);
+            partyList[activeMember].dealDamage(amount, damageType, mitigationStat);
+            return partyList[activeMember].isFainted();
+        }
+        public void swapCreature()
+        {
+            //Handle the UI here
+            activeMember++;
         }
     }
 }

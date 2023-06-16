@@ -18,20 +18,22 @@ namespace Tiny_Battler.Interface
         }
         public int getSelection()
         {
+            selected = false;
+            Program.clearScreen();
             while (!selected)
             {
-                Console.SetCursorPosition(Mechanics.OptionsOffset.X, Mechanics.OptionsOffset.Y);
+                Console.SetCursorPosition(InterfaceOptions.OptionsOffset.X, InterfaceOptions.OptionsOffset.Y);
                 for (int i = 0; i < Options.Count; i++)
                 {
                     if (i == currentSelection)
                     {
-                        Console.BackgroundColor = Mechanics.HighlightColor;
-                        Console.ForegroundColor = Mechanics.HighlightText;
+                        Console.BackgroundColor = InterfaceOptions.HighlightColor;
+                        Console.ForegroundColor = InterfaceOptions.HighlightText;
                     }
                     else
                     {
-                        Console.BackgroundColor = Mechanics.DefaultColor;
-                        Console.ForegroundColor = Mechanics.TextColor;
+                        Console.BackgroundColor = InterfaceOptions.DefaultColor;
+                        Console.ForegroundColor = InterfaceOptions.TextColor;
                     }
                     Console.WriteLine(Options[i]);
                 }
@@ -49,6 +51,8 @@ namespace Tiny_Battler.Interface
                     selected = true;
                 }
             }
+            Console.BackgroundColor = InterfaceOptions.DefaultColor;
+            Console.ForegroundColor = InterfaceOptions.TextColor;
             return currentSelection;
         }
     }

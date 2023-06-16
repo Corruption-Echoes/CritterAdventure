@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<MoveList>
+	<species>
+		<speciesname>Flamiglide</speciesname>
+		<move>
+			<movename>Tackle</movename>
+			<level>1</level>
+		</move>
+		<move>
+			<movename>Growl</movename>
+			<level>1</level>
+		</move>
+		<move>
+			<movename>Singe</movename>
+			<level>5</level>
+		</move>
+	</species>
+	<species>
+		<speciesname>Aquashade</speciesname>
+		<move>
+			<movename>Scratch</movename>
+			<level>1</level>
+		</move>
+	</species>
+	<species>
+		<speciesname>Voltynx</speciesname>
+		<move>
+			<movename>Tackle</movename>
+			<level>1</level>
+		</move>
+	</species>
+</MoveList>

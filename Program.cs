@@ -16,5 +16,9 @@ namespace Tiny_Battler
             Loop mainLoop = new Loop();
             Console.Read();
         }
+        public static void clearScreen()
+        {
+            Console.Clear();
+        }
     }
 }

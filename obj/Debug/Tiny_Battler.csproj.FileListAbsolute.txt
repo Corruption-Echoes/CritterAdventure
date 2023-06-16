@@ -9,3 +9,4 @@ C:\Library\projects\C#\CritterAdventure\obj\Debug\Tiny_Battler.csproj.SuggestedB
 C:\Library\projects\C#\CritterAdventure\obj\Debug\Tiny_Battler.csproj.CoreCompileInputs.cache
 C:\Library\projects\C#\CritterAdventure\obj\Debug\Tiny_Battler.exe
 C:\Library\projects\C#\CritterAdventure\obj\Debug\Tiny_Battler.pdb
+C:\Library\projects\C#\CritterAdventure\bin\Debug\XMLStorage\Species\MoveList.xml

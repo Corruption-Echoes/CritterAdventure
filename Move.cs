@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Tiny_Battler
 {
-    internal class Move
+    public class Move
     {
         public int ID;
         public int CPP;

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Security.Policy;
@@ -13,16 +14,11 @@ namespace Tiny_Battler
     {
         public static List<float> statMultiplierStages = new List<float>() { 0.08f, 0.12f, 0.18f, 0.28f, 0.43f, 0.66f, 1f, 1.33f, 1.75f, 2.35f, 3.12f, 4.16f, 5.53f };
         public static int EVCAP = 252;
-        public static point OptionsOffset=new point(0,0);
-        public static ConsoleColor HighlightColor = ConsoleColor.Green;
-        public static ConsoleColor DefaultColor = ConsoleColor.Black;
-        public static ConsoleColor TextColor=ConsoleColor.Yellow;
-        public static ConsoleColor HighlightText = ConsoleColor.White;
-        public static ConsoleColor WarningColor = ConsoleColor.Red;
+        
         public static Random randomGen=new Random();
         public static Dictionary<string, string[]> keyMaps = new Dictionary<string, string[]>() { {"Left", new string[]{ "LeftArrow", "A" }},{ "Right", new string[] { "RightArrow", "D" } },{ "Up", new string[] { "UpArrow", "W" } }, { "Down", new string[] { "DownArrow", "S" } }, { "Confirm", new string[] { "Enter", "Spacebar" } }, { "Cancel", new string[] { "Backspace", "Z" } } };
         public static List<xpScales> XPScales=new List<xpScales>();
-        public static string[] types = { "Normal","Fire","Water","Grass","Flying","Ice","Fairy","Steel","Dark","Dragon","Poison","Fighting","Rock","Ground","Ghost","Psychic","Electric","Bug","Null"};
+        public static string[] types = { "Fire", "Water", "Air", "Earth", "Lightning", "Poison", "Nature", "Ice", "Steel", "Dark", "Light" ,"Null"};
         public static string[] stats = { "Health","Attack","Defense","Magic","Shield","Speed"};
         public static string[] statusEffects = { "Poison", "Paralysis", "Sleep", "Frozen", "Bleeding", "Concussed" ,"Burning"};
         public static Loader loader = new Loader();
@@ -36,6 +32,10 @@ namespace Tiny_Battler
                 }
             }
             return null;
+        }
+        public static int generateIV()
+        {
+            return randomGen.Next(0, 32);
         }
         public static string getPlayerInput()
         {
@@ -68,16 +68,205 @@ namespace Tiny_Battler
             }
             return toReturn;
         }
+        public static int getStatNum(string stat)
+        {
+            for(int i = 0; i < stats.Length; i++)
+            {
+                if (stats[i] == stat)
+                {
+                    return i;
+                }
+            }
+            return 0;
+        }
+        public static string getTypeFromSpeciesTemplate(int species, int Slot)
+        {
+            try
+            {
+                string type = Mechanics.types[Mechanics.loader.speciesTemplates[species].Types[Slot]];
+                return type;
+            }
+            catch
+            {
+                return "null";
+            }
+        }
+        public static string TypeEffectivenessToString(float multi)
+        {
+            if(multi > 1)
+            {
+                return "Super Effective!";
+            }if (multi < 1)
+            {
+                return "Not very Effective!";
+            }
+            return "Effective.";
+        }
+        public static float CalculateTypeEffectiveness(string type, int species)
+        {
+            float multiplier = 1;
+            string type1 = Mechanics.getTypeFromSpeciesTemplate(species, 0);
+            string type2 = Mechanics.getTypeFromSpeciesTemplate(species, 1);
+
+            //Welcome to hell, population 1 type effectiveness chart
+            /*
+             Fire is weak to Water, Poison and Earth
+             Fire resists Light, Ice, Nature
+             Fire beats Nature, Steel, Air, Ice
+            */
+            if ((type1 == "Fire" || type2 == "Fire") && (type == "Water" || type == "Earth" || type == "Poison"))
+            {
+                multiplier *= 2;
+            }
+            if ((type1 == "Fire" || type2 == "Fire") && (type == "Light" || type == "Ice" || type == "Nature"))
+            {
+                multiplier *= 0.5f;
+            }
+            /*
+             Water is weak to Nature, Lightning, and Dark
+             Water resists Ice, Air, and Fire
+             Water beats Fire, Steel and Poison
+            */
+            if ((type1 == "Water" || type2 == "Water") && (type == "Nature" || type == "Lightning" || type == "Dark"))
+            {
+                multiplier *= 2;
+            }
+            if ((type1 == "Water" || type2 == "Water") && (type == "Ice" || type == "Air" || type == "Fire"))
+            {
+                multiplier *= 0.5f;
+            }
+            /*
+             Air is weak to Nature, Ice, and Lightning
+             Air resists Dark, Light, Earth
+             Air beats Light, Earth and Dark
+            */
+            if ((type1 == "Air" || type2 == "Air") && (type == "Nature" || type == "Lightning" || type == "Ice"))
+            {
+                multiplier *= 2;
+            }
+            if ((type1 == "Air" || type2 == "Air") && (type == "Dark" || type == "Light" || type == "Earth"))
+            {
+                multiplier *= 0.5f;
+            }
+            /*
+             Earth is weak to Air, Ice and Poison
+             Earth resists Dark, Light and Nature
+             Earth beats Fire, Lightning and Steel
+            */
+            if ((type1 == "Earth" || type2 == "Earth") && (type == "Air" || type == "Poison" || type == "Ice"))
+            {
+                multiplier *= 2;
+            }
+            if ((type1 == "Earth" || type2 == "Earth") && (type == "Dark" || type == "Light" || type == "Nature"))
+            {
+                multiplier *= 0.5f;
+            }
+            /*
+             Lightning is weak to Earth, Steel, and Dark
+             Lightning resists Fire, Light, Water
+             Lightning beats Water, Air, Dark
+            */
+            if ((type1 == "Lightning" || type2 == "Lightning") && (type == "Earth" || type == "Steel" || type == "Dark"))
+            {
+                multiplier *= 2;
+            }
+            if ((type1 == "Lightning" || type2 == "Lightning") && (type == "Fire" || type == "Light" || type == "Water"))
+            {
+                multiplier *= 0.5f;
+            }
+            /*
+             Poison is weak to Water, Steel, Light
+             Poison resists Fire, Nature, Dark
+             Poison beats Fire, Earth, Nature
+            */
+            if ((type1 == "Poison" || type2 == "Poison") && (type == "Water" || type == "Steel" || type == "Light"))
+            {
+                multiplier *= 2;
+            }
+            if ((type1 == "Poison" || type2 == "Poison") && (type == "Fire" || type == "Nature" || type == "Dark"))
+            {
+                multiplier *= 0.5f;
+            }
+            /*
+             Nature is weak to Fire, Poison, and ice
+             Nature resists Water, Air, and Dark
+             Nature beats Water, Air and Light
+            */
+            if ((type1 == "Nature" || type2 == "Nature") && (type == "Fire" || type == "Poison" || type == "Ice"))
+            {
+                multiplier *= 2;
+            }
+            if ((type1 == "Nature" || type2 == "Nature") && (type == "Water" || type == "Air" || type == "Dark"))
+            {
+                multiplier *= 0.5f;
+            }
+            /*
+             Ice is weak to Fire, Steel, and Light
+             Ice resists Water, Dark and Poison
+             Ice beats Nature, Earth, Air
+            */
+            if ((type1 == "Ice" || type2 == "Ice") && (type == "Fire" || type == "Steel" || type == "Light"))
+            {
+                multiplier *= 2;
+            }
+            if ((type1 == "Ice" || type2 == "Ice") && (type == "Water" || type == "Poison" || type == "Dark"))
+            {
+                multiplier *= 0.5f;
+            }
+            /*
+             Steel is weak to Fire, Water and Earth
+             Steel resists Air, Lightning and Poison
+             Steel beats Lightning, Poison, Ice
+            */
+            if ((type1 == "Steel" || type2 == "Steel") && (type == "Fire" || type == "Water" || type == "Earth"))
+            {
+                multiplier *= 2;
+            }
+            if ((type1 == "Steel" || type2 == "Steel") && (type == "Air" || type == "Lightning" || type == "Poison"))
+            {
+                multiplier *= 0.5f;
+            }
+            /*
+             Dark is weak to Light, Lightning and Air
+             Dark resists Steel, Water and Ice
+             Dark beats Light, Lightning, Water
+            */
+            if ((type1 == "Dark" || type2 == "Dark") && (type == "Light" || type == "Lightning" || type == "Air"))
+            {
+                multiplier *= 2;
+            }
+            if ((type1 == "Dark" || type2 == "Dark") && (type == "Steel" || type == "Water" || type == "Ice"))
+            {
+                multiplier *= 0.5f;
+            }
+            /*
+             Light is weak to Dark, Nature, and Air
+             Light resists Fire, Lightning and Ice
+             Light beats Dark, Ice, Poison
+             */
+            if ((type1 == "Light" || type2 == "Light") && (type == "Dark" || type == "Nature" || type == "Air"))
+            {
+                multiplier *= 2;
+            }
+            if ((type1 == "Light" || type2 == "Light") && (type == "Fire" || type == "Lightning" || type == "Ice"))
+            {
+                multiplier *= 0.5f;
+            }
+            return multiplier;
+        }
     }
     public class Loader{
         public List<moveTemplate> moveTemplates;
         public List<speciesTemplate> speciesTemplates;
+        public Dictionary<string, List<learnPair>> levelupMoves;
         public Loader()
         { 
             moveTemplates = new List<moveTemplate>();
             loadMoveTemplates();
             speciesTemplates = new List<speciesTemplate>();
             loadSpeciesTemplates();
+            levelupMoves=new Dictionary<string, List<learnPair>>();
+            loadLearnLists();
         }
         public void loadMoveTemplates()
         {
@@ -105,6 +294,20 @@ namespace Tiny_Battler
                         textReader.Read();
                         moveTemplate m = moveTemplates[moveTemplates.Count - 1];
                         m.Description = textReader.Value;
+                        moveTemplates[moveTemplates.Count - 1] = m;
+                    }
+                    if (textReader.Name == "scale")
+                    {
+                        textReader.Read();
+                        moveTemplate m = moveTemplates[moveTemplates.Count - 1];
+                        m.Scale = textReader.Value;
+                        moveTemplates[moveTemplates.Count - 1] = m;
+                    }
+                    if (textReader.Name == "mitigation")
+                    {
+                        textReader.Read();
+                        moveTemplate m = moveTemplates[moveTemplates.Count - 1];
+                        m.Mitigator = textReader.Value;
                         moveTemplates[moveTemplates.Count - 1] = m;
                     }
                     if (textReader.Name == "power")
@@ -278,6 +481,76 @@ namespace Tiny_Battler
             }
             return wildListings;
         }
+        public void loadLearnLists()
+        {
+            XmlTextReader textReader = new XmlTextReader("XMLStorage/Species/MoveList.xml");
+            textReader.Read();
+            string currentSpecies = "";
+            while (textReader.Read())
+            {
+                if (textReader.NodeType != XmlNodeType.EndElement)
+                {
+                    if (textReader.Name == "species")
+                    {
+                        textReader.Read();
+                        textReader.Read();
+                        textReader.Read();
+                        List<learnPair> moves = new List<learnPair>();
+                        levelupMoves.Add(textReader.Value, moves);
+                        currentSpecies= textReader.Value;
+                    }
+                    else if (textReader.Name == "movename")
+                    {
+                        textReader.Read();
+                        string name= textReader.Value;
+                        textReader.Read();
+                        Console.WriteLine(textReader.Value);
+                        textReader.Read();
+                        Console.WriteLine(textReader.Value);
+                        textReader.Read();
+                        textReader.Read();
+                        Console.WriteLine(textReader.Value);
+                        int level = int.Parse(textReader.Value);
+                        learnPair lp=new learnPair(name,level);
+                        levelupMoves[currentSpecies].Add(lp);
+                    }
+                }
+            }
+        }
+        public List<Move> GetDefaultMoves(string species, int level)
+        {
+            List<Move> toReturn=new List<Move>();
+            foreach(learnPair lp in levelupMoves[species])
+            {
+                if (lp.Level <= level)
+                {
+                    toReturn.Add(new Move(getMoveIndexByName(lp.MoveName)));
+                }
+            }
+            return toReturn;
+        }
+        public moveTemplate getMoveByName(string name)
+        {
+            foreach(moveTemplate mt in moveTemplates)
+            {
+                if(mt.Name == name)
+                {
+                    return mt;
+                }
+            }
+            return moveTemplates[0];
+        }
+        public int getMoveIndexByName(string name)
+        {
+            for(int i = 0; i < moveTemplates.Count; i++)
+            {
+                if (moveTemplates[i].Name == name)
+                {
+                    return i;
+                }
+            }
+            return 0;
+        }
     }
     public struct wildListing
     {
@@ -316,6 +589,8 @@ namespace Tiny_Battler
         public int PP;
         public int Accuracy;
         public int Type;
+        public string Scale;
+        public string Mitigator;
         public List<effect> secondaryEffects;
         public void init()
         {
@@ -324,6 +599,18 @@ namespace Tiny_Battler
             Power = 0;
             PP = 40;
             Accuracy = 100;
+            Scale = "null";
+            Mitigator= "null";
+        }
+    }
+    public struct learnPair
+    {
+        public string MoveName;
+        public int Level;
+        public learnPair(string move, int level)
+        {
+            MoveName = move;
+            Level = level;
         }
     }
     public struct effect
